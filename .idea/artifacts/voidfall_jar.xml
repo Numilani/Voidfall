@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="voidfall:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/voidfall_jar</output-path>
+    <root id="archive" name="voidfall.jar">
+      <element id="module-output" name="voidfall" />
+      <element id="extracted-dir" path="E:/source_depends/spigot-api-1.14.4-R0.1-20191210.224154-92.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

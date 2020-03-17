@@ -1,0 +1,5 @@
+name: VoidFall
+version: 0.1.0
+author: Ambrosia
+main: com.coldwater.voidfall.voidfall
+api-version: 1.14
