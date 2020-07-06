@@ -11,7 +11,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://E:/source_depends/spigot-api-1.14.4-R0.1-20191210.224154-92.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../code_depends/spigot-api-1.14.4-R0.1-20191210.224154-92.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

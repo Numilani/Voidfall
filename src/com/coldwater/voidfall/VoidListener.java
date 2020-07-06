@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,43 +17,43 @@ import java.util.List;
 import static org.bukkit.Bukkit.getServer;
 
 public class VoidListener implements Listener {
-
-    List<String> worlds = new ArrayList<String>();
+    List<String> worlds = new ArrayList();
 
     public VoidListener() {
-        worlds.add("world");
-        worlds.add("flatBuild");
+        this.worlds.add("Tale_1");
+        this.worlds.add("Tale_1_Null");
     }
 
     @EventHandler
-    public void onVoidDamage(EntityDamageEvent e)
-    {
-        if (e.getEntityType() == EntityType.PLAYER && e.getCause() == EntityDamageEvent.DamageCause.VOID)
-        {
+    public void onVoidDamage(EntityDamageEvent e) {
+        if (e.getEntityType() == EntityType.PLAYER && e.getCause() == EntityDamageEvent.DamageCause.VOID) {
             Location loc = e.getEntity().getLocation();
-
-            String worldName = worlds.get(0);
-
-            if (worlds.indexOf(loc.getWorld().toString()) != -1) // if the world is found in the list...
-            {
-                if (worlds.indexOf(loc.getWorld().toString()) != worlds.size() - 1) // ...and the world isn't last in the list...
-                {
-                    worldName = worlds.get(worlds.indexOf(loc.getWorld().toString()) + 1); // ...fall into the next world.
+            String worldName = (String)this.worlds.get(0);
+            Bukkit.getLogger().info("current world is " + loc.getWorld().getName());
+            if (this.worlds.contains(loc.getWorld().getName())) {
+                if (this.worlds.indexOf(loc.getWorld().getName()) != this.worlds.size() - 1) {
+                    worldName = (String)this.worlds.get(this.worlds.indexOf(loc.getWorld().getName()) + 1);
+                    Bukkit.getLogger().info("whee! Falling into " + worldName);
+                } else {
+                    worldName = (String)this.worlds.get(0);
+                    Bukkit.getLogger().info("Out of worlds, looping back to the top of the list!");
                 }
-                else
-                {
-                    worldName = worlds.get(0); // If the world was last, loop back around and fall into the world at the top of the list :P
-                }
+
+                Player p = (Player)e.getEntity();
+                this.teleportPlayerToWorldAndCoordinates(p, worldName, loc.getBlockX(), loc.getBlockZ());
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 400, 1, false, false, false));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 300, 6, false, false, false));
+                p.sendMessage("You feel space bend as the void swallows you...");
+            } else {
+                Bukkit.getLogger().info("Something went wrong...");
             }
-//            String worldName = worlds.indexOf(loc.getWorld().toString()) != -1  ? worlds.get(worlds.indexOf(loc.getWorld().toString()) + 1) : worlds.get(0);
-
-            teleportPlayerToWorldAndCoordinates((Player) e.getEntity(), worldName, loc.getBlockX(), loc.getBlockZ());
         }
+
     }
 
-    public void teleportPlayerToWorldAndCoordinates(Player player, String world, int x, int z)
-    {
-        Location loc = new Location(Bukkit.getWorld(world), x, 250, z);
+    public void teleportPlayerToWorldAndCoordinates(Player player, String world, int x, int z) {
+        Location loc = new Location(Bukkit.getWorld(world), (double)x, 250.0D, (double)z);
         player.teleport(loc);
+        Bukkit.getLogger().info("world should be " + world + " after TP");
     }
 }
